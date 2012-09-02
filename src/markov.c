@@ -83,6 +83,8 @@ void mc_add_trans(char *prefix, int n, unsigned char c)
 	suf = &st->suffix[c];
 	suf->c = c;
 	suf->count++;
+
+	debug("'%s'->'%c' : %d\n", prefix, c, suf->count);
 }
 
 void remove_whitespace(char *line)
@@ -119,7 +121,6 @@ void train_on_line(char *line)
 	for( ; line[i] != '\0' ; i++){
 		c = line[i];
 
-		debug("'%s' -> '%c'\n", prefix, c);
 		mc_add_trans(prefix, MC_PREF, c);
 
 		memmove(prefix, prefix + 1, MC_PREF-1);
