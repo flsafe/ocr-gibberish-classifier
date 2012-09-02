@@ -31,7 +31,6 @@ struct MC_State
     MC_State *next;
 };
 
-
 /* hash table of states */
 MC_State *state_tab[MC_HASH];  
 
@@ -64,6 +63,8 @@ MC_State *mc_look_up(char *prefix, int n, int create)
 
 	if(create){
 		st = calloc(1, sizeof(MC_State));	
+		assert(st != NULL && "Failed to allocate mem for MC_State");
+
 		st->prefix = strndup(prefix, n);
 		st->next = state_tab[h];
 		state_tab[h] = st;
@@ -72,6 +73,7 @@ MC_State *mc_look_up(char *prefix, int n, int create)
 	return st;
 }
 
+/* increase the counter for the suffix, given the prefix */
 void mc_add_trans(char *prefix, int n, unsigned char c)
 {
 	MC_State *st = NULL;
@@ -96,6 +98,7 @@ void remove_whitespace(char *line)
 	} while(c);
 }
 
+/* train markov chain on one line of text */
 void train_on_line(char *line)
 {
 	char prefix[MC_PREF+1];
