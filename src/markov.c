@@ -4,35 +4,12 @@
 #include <assert.h>
 #include <ctype.h>
 #include "debug.h"
+#include "markov.h"
 
 #define LINE_BUFF 80
 
-enum
-{
-	MC_PREF = 2,     /* prefix length */
-	MC_SUFF = 256,   /* number of possible sufixes */
-	MC_HASH = 4093,  /* state hash table size */
-};
-
-typedef struct MC_State MC_State;
-typedef struct MC_Suffix MC_Suffix;
-
-struct MC_Suffix
-{
-	char c;                   /* char suffix */
-	int count;                /* count of this character suffix */
-};
-
-struct MC_State 
-{
-	char *prefix;               /* prefix string */
-	MC_Suffix suffix[MC_SUFF];  /* table couting the freq of each suffix char */
-
-    MC_State *next;
-};
-
 /* hash table of states */
-MC_State *state_tab[MC_HASH];  
+MC_State *mc_state_tab[MC_HASH];  
 
 /* returns hash of prefix */
 unsigned int hash(char *prefix, int n)
@@ -55,7 +32,7 @@ MC_State *mc_look_up(char *prefix, int n, int create)
 	MC_State *st = NULL;
 
 	h = hash(prefix, MC_PREF);
-	for(st = state_tab[h] ; st != NULL ; st = st->next){
+	for(st = mc_state_tab[h] ; st != NULL ; st = st->next){
 		if(0 == strncmp(prefix, st->prefix, MC_PREF)){
 			return st;	
 		}
@@ -66,8 +43,8 @@ MC_State *mc_look_up(char *prefix, int n, int create)
 		assert(st != NULL && "Failed to allocate mem for MC_State");
 
 		st->prefix = strndup(prefix, n);
-		st->next = state_tab[h];
-		state_tab[h] = st;
+		st->next = mc_state_tab[h];
+		mc_state_tab[h] = st;
 	}
 
 	return st;
@@ -101,7 +78,7 @@ void remove_whitespace(char *line)
 }
 
 /* train markov chain on one line of text */
-void train_on_line(char *line)
+void mc_train_on_line(char *line)
 {
 	char prefix[MC_PREF+1];
 	unsigned char c = 0;
@@ -128,7 +105,7 @@ void train_on_line(char *line)
 	}
 }
 
-void train_model(char *file_path)
+void mc_train_model(char *file_path)
 {
 	FILE *f = NULL;	
 	char line[LINE_BUFF];
@@ -137,6 +114,6 @@ void train_model(char *file_path)
 	assert(f != NULL && "Couldn't open file");
 
 	while(fgets(line, LINE_BUFF, f) != NULL){
-		train_on_line(line);
+		mc_train_on_line(line);
 	}
 }
