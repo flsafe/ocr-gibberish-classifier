@@ -25,22 +25,22 @@ char *test_train_model()
 	error = has_prefix_and_suf_count("th", MC_PREF, 'e', 1);
 	if(error != NULL) return error;
 
-	error = has_prefix_and_suf_count("he", MC_PREF, 'c', 1);
+	error = has_prefix_and_suf_count("he", MC_PREF, ' ', 1);
 	if(error != NULL) return error;
 
-	error = has_prefix_and_suf_count("ec", MC_PREF, 'a', 1);
+	error = has_prefix_and_suf_count("e ", MC_PREF, 'c', 1);
 	if(error != NULL) return error;
 
-	error = has_prefix_and_suf_count("ec", MC_PREF, 'a', 1);
+	error = has_prefix_and_suf_count(" c", MC_PREF, 'a', 1);
 	if(error != NULL) return error;
 
 	error = has_prefix_and_suf_count("ca", MC_PREF, 't', 1);
 	if(error != NULL) return error;
 
-	error = has_prefix_and_suf_count("at", MC_PREF, 's', 1);
+	error = has_prefix_and_suf_count("at", MC_PREF, ' ', 1);
 	if(error != NULL) return error;
 
-	error = has_prefix_and_suf_count("ts", MC_PREF, 'a', 1);
+	error = has_prefix_and_suf_count("t ", MC_PREF, 's', 1);
 	if(error != NULL) return error;
 
 	error = has_prefix_and_suf_count("sa", MC_PREF, 't', 1);

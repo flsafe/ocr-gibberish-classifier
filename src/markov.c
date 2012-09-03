@@ -64,16 +64,15 @@ void mc_add_trans(char *prefix, int n, unsigned char c)
 	debug("'%s'->'%c' : %d\n", prefix, c, suf->count);
 }
 
-void remove_whitespace(char *line)
+/* transform to lowercase */
+void clean_line(char *line)
 {
 	int read = 0, write = 0;
 	char c = 0;
 
 	do{
 		c = line[read++];
-		if(!isspace(c)){
-			line[write++] = c;
-		}
+		line[write++] = tolower(c);
 	} while(c);
 }
 
@@ -84,7 +83,7 @@ void mc_train_on_line(char *line)
 	unsigned char c = 0;
 	int i = 0;
 
-	remove_whitespace(line);
+	clean_line(line);
 
 	do {
 		c = line[i];
