@@ -1,0 +1,17 @@
+DEBUG tests/markov_tests.c:61: ----- RUNNING: ./tests/markov_tests
+DEBUG tests/markov_tests.c:56: 
+----- test_train_model
+DEBUG src/markov.c:64: 'th'->'e' : 1
+
+DEBUG src/markov.c:64: 'he'->'c' : 1
+
+DEBUG src/markov.c:64: 'ec'->'a' : 1
+
+DEBUG src/markov.c:64: 'ca'->'t' : 1
+
+DEBUG src/markov.c:64: 'at'->'s' : 1
+
+DEBUG src/markov.c:64: 'ts'->'a' : 1
+
+DEBUG src/markov.c:64: 'sa'->'t' : 1
+

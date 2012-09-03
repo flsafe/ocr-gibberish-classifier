@@ -1,5 +1,5 @@
+#include <markov.c>
 #include "minunit.h"
-#include <markov.h>
 
 char *has_prefix_and_suf_count(char *pre, int n, unsigned char c, int count)
 {

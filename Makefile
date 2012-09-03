@@ -2,8 +2,11 @@ CFLAGS=-g -O2 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
 LDLIBS=-ldl $(OPTLIBS)
 PREFIX?=/usr/local
 
-SOURCES=$(wildcard src/**/*.c src/*.c)
+SOURCES=$(filter-out src/main.c, $(wildcard src/**/*.c src/*.c))
 OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
+
+EXECSOURCES=$(wildcard src/**/*.c src/*.c)
+EXECOBJECTS=$(patsubst %.c, %.o, $(EXECSOURCES))
 
 TEST_SRC=$(wildcard tests/*_tests.c)
 TESTS=$(patsubst %.c,%,$(TEST_SRC))
@@ -11,7 +14,10 @@ TESTS=$(patsubst %.c,%,$(TEST_SRC))
 TARGET=build/libYOUR_LIB.a
 SO_TARGET=$(patsubst %.a, %.so, $(TARGET))
 
-all: $(TARGET) $(SO_TARGET) tests
+all: $(TARGET) $(SO_TARGET) exec tests
+
+exec: $(EXECOBJECTS) 
+	$(CC) -o bin/$@ $(EXECOBJECTS)
 
 dev: CFLAGS=-g -Isrc -Wall -Wextra $(OPTFLAGS)
 dev: all
@@ -38,6 +44,7 @@ valgrind:
 
 clean:
 	rm -rf build $(OBJECTS) $(TESTS)
+	rm -rf bin $(EXECOBJECTS)
 	rm -rf tests/tests.log
 	find . -name "*.gc" -exec rm {} \;
 	rm -rf `find . -name "*.dSYM" -print`
