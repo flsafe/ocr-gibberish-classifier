@@ -20,7 +20,7 @@ char *test_train_model()
 {
 	char *error = NULL;
 
-	mc_train_model("./tests/test_training_corpous");
+	mc_train_model("./tests/test_training_corpus");
 	
 	error = has_prefix_and_suf_count("th", MC_PREF, 'e', 1);
 	if(error != NULL) return error;
