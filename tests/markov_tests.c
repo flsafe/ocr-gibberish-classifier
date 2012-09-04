@@ -1,6 +1,8 @@
 #include <markov.c>
 #include "minunit.h"
 
+int MC_PREF = 2;
+
 char *has_prefix_and_suf_count(char *pre, int n, unsigned char c, int count)
 {
 	MC_State *st = NULL;
@@ -20,7 +22,7 @@ char *test_train_model()
 {
 	char *error = NULL;
 
-	mc_train_model("./tests/test_training_corpus");
+	mc_train_model("./tests/test_training_corpus", MC_PREF);
 	
 	error = has_prefix_and_suf_count("th", MC_PREF, 'e', 1);
 	if(error != NULL) return error;
