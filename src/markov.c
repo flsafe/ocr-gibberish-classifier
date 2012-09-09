@@ -61,8 +61,6 @@ void mc_add_trans(char *prefix, int np, unsigned char c)
 	suf = &st->suffix[c];
 	suf->c = c;
 	suf->count++;
-
-	debug("'%s'->'%c' : %d\n", prefix, c, suf->count);
 }
 
 /* transform to lowercase */
